@@ -1,0 +1,31 @@
+# Detect Shell
+if [ -n "$BASH_VERSION" ]; then
+    SHELL_NAME="bash"
+elif [ -n "$ZSH_VERSION" ]; then
+    SHELL_NAME="zsh"
+else
+    SHELL_NAME="unknown"
+fi
+
+# Universal Aliases
+alias ll='ls -alF'
+alias gs='git status'
+
+# Universal Environment Variables
+export EDITOR=nano
+export PATH=$HOME/bin:$PATH
+
+# Shell-Specific Configurations
+if [ "$SHELL_NAME" = "bash" ]; then
+    export HISTSIZE=5000
+    export HISTFILESIZE=10000
+    shopt -s histappend
+    export PS1="\u@\h:\w$ "
+elif [ "$SHELL_NAME" = "zsh" ]; then
+    export HISTSIZE=5000
+    export SAVEHIST=10000
+    setopt APPEND_HISTORY
+    setopt HIST_IGNORE_DUPS
+    export PS1="%n@%m:%~%# "
+    autoload -Uz compinit && compinit
+fi
